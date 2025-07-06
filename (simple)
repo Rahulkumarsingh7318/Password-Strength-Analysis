@@ -1,0 +1,47 @@
+import re
+
+def evaluate_password(password):
+    # Initialize strength criteria
+    length_criteria = len(password) >= 8
+    upper_criteria = re.search(r'[A-Z]', password) is not None
+    lower_criteria = re.search(r'[a-z]', password) is not None
+    digit_criteria = re.search(r'\d', password) is not None
+    special_criteria = re.search(r'[!@#$%^&*(),.?":{}|<>]', password) is not None
+
+    # Calculate strength score
+    score = sum([length_criteria, upper_criteria, lower_criteria, digit_criteria, special_criteria])
+
+    # Determine strength level
+    if score < 3:
+        strength = "Weak"
+    elif score == 3:
+        strength = "Moderate"
+    else:
+        strength = "Strong"
+
+    return strength, score
+
+def recommend_password_practices():
+    recommendations = [
+        "Use at least 12 characters.",
+        "Include both uppercase and lowercase letters.",
+        "Add numbers and special characters.",
+        "Avoid common words and phrases.",
+        "Do not use easily obtainable information (like your name or birthdate).",
+        "Consider using a password manager to generate and store complex passwords."
+    ]
+    return recommendations
+
+def main():
+    password = input("Enter a password to evaluate: ")
+    strength, score = evaluate_password(password)
+    
+    print(f"Password Strength: {strength} (Score: {score}/5)")
+    
+    if strength == "Weak":
+        print("Recommendations for a stronger password:")
+        for recommendation in recommend_password_practices():
+            print(f"- {recommendation}")
+
+if __name__ == "__main__":
+    main()
